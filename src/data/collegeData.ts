@@ -106,7 +106,8 @@ export const generateCollegeResponse = (input: string, lastTopic: CollegeTopic =
     const isFollowUp = text.includes("what about") || text.includes("and for") || text.includes("is it") || text.includes("any more") || text.startsWith("and ");
 
     // Greeting (No topic change)
-    if (text.includes("hello") || text.includes("hi") || text.includes("hey")) {
+    const isGreeting = /\b(hello|hi|hey|hella|greetings)\b/i.test(text);
+    if (isGreeting) {
         return { text: "Hello! I am your BCREC Virtual Assistant. How can I help you today?", topic: lastTopic };
     }
 

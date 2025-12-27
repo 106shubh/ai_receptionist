@@ -25,7 +25,11 @@ export default function Index() {
     const [_sessionId, setSessionId] = useState<string>('');
 
     // Trigger keywords for the inquiry flow
-    const INQUIRY_TRIGGERS = ["send email", "contact office", "direct message", "email college", "leave a message", "talk to human"];
+    const INQUIRY_TRIGGERS = [
+        "message", "email", "mail", "contact", "inquiry", "connect",
+        "send a message", "talk to human", "leave a message", "leave message",
+        "reach out", "refund", "ask about"
+    ];
 
     useEffect(() => {
         setSessionId(getSessionId());
