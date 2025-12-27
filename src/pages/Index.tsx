@@ -57,9 +57,25 @@ export default function Index() {
 
         if (shouldStartInquiry && inquiryStep === 'idle') {
             setIsTyping(true);
+
+            // Extract potential reason from the message (e.g., "mail about refund" -> "refund")
+            let extractedReason = "";
+            const reasonMarkers = ["about", "for", "regarding", "concerning", "to ", "details on"];
+            for (const marker of reasonMarkers) {
+                if (text.toLowerCase().includes(marker)) {
+                    extractedReason = text.toLowerCase().split(marker)[1]?.trim();
+                    if (extractedReason) break;
+                }
+            }
+
             setTimeout(() => {
                 setInquiryStep('collecting_name');
-                addBotMessage("I can certainly help you with that! I'll prepare a direct inquiry for the college office.\n\nFirst, may I have your **Full Name**?");
+                if (extractedReason) {
+                    setInquiryData(prev => ({ ...prev, message: extractedReason }));
+                    addBotMessage(`I'll help you prepare a message about **${extractedReason}** for the college office.\n\nFirst, may I have your **Full Name**?`);
+                } else {
+                    addBotMessage("I can certainly help you with that! I'll prepare a direct inquiry for the college office.\n\nFirst, may I have your **Full Name**?");
+                }
             }, 1000);
             return;
         }
@@ -72,7 +88,11 @@ export default function Index() {
                     case 'collecting_name':
                         setInquiryData(prev => ({ ...prev, name: text }));
                         setInquiryStep('collecting_email');
-                        addBotMessage(`Thanks, **${text}**. Now, what is your **Email Address**? (We'll use this to reply to you).`);
+                        if (inquiryData.message) {
+                            addBotMessage(`Ok **${text}**, I've noted that this is regarding **${inquiryData.message}**. Now, what is your **Email Address**?`);
+                        } else {
+                            addBotMessage(`Thanks, **${text}**. Now, what is your **Email Address**? (We'll use this to reply to you).`);
+                        }
                         break;
 
                     case 'collecting_email':
@@ -82,8 +102,15 @@ export default function Index() {
                             return;
                         }
                         setInquiryData(prev => ({ ...prev, email: text }));
-                        setInquiryStep('collecting_message');
-                        addBotMessage("Perfect. Finally, what is your **Message** for the college? Please describe your query in detail.");
+
+                        if (inquiryData.message) {
+                            // We already have a subject/reason, so we can jump straight to preview
+                            setInquiryStep('preview');
+                            addBotMessage(`Perfect. I've prepared your inquiry regarding **${inquiryData.message}**. Please review the details below and click **Send** when you're ready.`);
+                        } else {
+                            setInquiryStep('collecting_message');
+                            addBotMessage("Perfect. Finally, what is your **Message** for the college? Please describe your query in detail.");
+                        }
                         break;
 
                     case 'collecting_message':
