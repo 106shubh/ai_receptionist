@@ -9,6 +9,7 @@ import type { Message } from '@/types/chat';
 import { generateCollegeResponse, QUICK_QUESTIONS, type CollegeTopic } from '@/data/collegeData';
 import { getSessionId } from '@/lib/userId';
 import { ExternalLink, MessageSquare, ChevronRight } from 'lucide-react';
+import { getAIResponse } from '@/lib/gemini';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import { Footer } from '@/components/Footer';
@@ -32,8 +33,32 @@ export default function Index() {
     ];
 
     useEffect(() => {
-        setSessionId(getSessionId());
+        const sid = getSessionId();
+        setSessionId(sid);
+
+        // Load messages from localStorage
+        const savedMessages = localStorage.getItem(`chat_history_${sid}`);
+        if (savedMessages) {
+            try {
+                const parsed = JSON.parse(savedMessages);
+                // Convert string dates back to Date objects
+                const formatted = parsed.map((m: any) => ({
+                    ...m,
+                    timestamp: new Date(m.timestamp)
+                }));
+                setMessages(formatted);
+            } catch (e) {
+                console.error("Error parsing saved messages:", e);
+            }
+        }
     }, []);
+
+    // Save messages to localStorage whenever they change
+    useEffect(() => {
+        if (_sessionId && messages.length > 0) {
+            localStorage.setItem(`chat_history_${_sessionId}`, JSON.stringify(messages));
+        }
+    }, [messages, _sessionId]);
 
     const addBotMessage = (content: string) => {
         const assistantMsg: Message = {
@@ -131,14 +156,25 @@ export default function Index() {
             return;
         }
 
-        // 3. Standard Chat Behavior
+        // 3. Standard Chat Behavior (AI-Powered)
         setIsTyping(true);
-        const delay = 800 + Math.random() * 1200;
-        setTimeout(() => {
+
+        // Format history for Gemini
+        const history = messages.map(m => ({
+            role: m.role === 'user' ? 'user' as const : 'model' as const,
+            parts: [{ text: m.content }]
+        }));
+
+        try {
+            const aiResponse = await getAIResponse(history, text);
+            addBotMessage(aiResponse);
+        } catch (error) {
+            console.error("Chat Error:", error);
+            // Fallback to static response if AI fails
             const result = generateCollegeResponse(text, lastTopic);
             setLastTopic(result.topic);
             addBotMessage(result.text);
-        }, delay);
+        }
     };
 
     const handleConfirmInquiry = () => {
