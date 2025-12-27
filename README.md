@@ -1,73 +1,53 @@
-# React + TypeScript + Vite
+# BCREC Virtual Assistant 🤖
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the official repository of the **BCREC Virtual Assistant**—a smart, interactive web platform designed to help students, parents, and visitors navigate life at Dr. B.C. Roy Engineering College, Durgapur.
 
-Currently, two official plugins are available:
+This isn't just a chatbot; it's a digital reception desk that handles everything from general inquiries to direct messages for the college admission cell.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌟 What's Inside?
 
-## React Compiler
+- **Smart Virtual Assistant**: A responsive AI-powered interface that answers common questions about departments, fees, placements, and campus life instantly.
+- **Direct Inquiry System**: A unique conversational flow that lets you send your queries directly to the college office without needing an external mail client.
+- **Dynamic Recruiter Marquee**: A live showcase of the major companies that actively recruit our talented students.
+- **Modern Dashboard UI**: A clean, balanced layout that puts everything you need—contact info, college stats, and quick links—right at your fingertips.
+- **High Performance**: Optimized for speed and smoothness, even on mobile devices, by stripping away heavy blur effects in favor of a sleek, modern aesthetic.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Built With
 
-## Expanding the ESLint configuration
+We used a modern stack to ensure the site is fast, reliable, and easy to maintain:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React + Vite**: For a lightning-fast development experience and optimized builds.
+- **TypeScript**: Ensuring our code is robust and self-documenting.
+- **Tailwind CSS**: For custom, responsive styling that looks great on any screen.
+- **Framer Motion**: Powering our smooth transitions and micro-animations.
+- **Lucide React**: Beautiful, consistent iconography.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🚀 Getting Started
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+If you want to run this project locally, follow these simple steps:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. **Clone the Repo**:
+   ```bash
+   git clone https://github.com/106shubh/ai_receptionist.git
+   cd ai_receptionist
+   ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+3. **Run Dev Server**:
+   ```bash
+   npm run dev
+   ```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+4. **Open in Browser**:
+   Navigate to `http://localhost:5173` to see it in action!
+
+## 📬 Contact the Team
+
+If you have any questions or feedback about this project, feel free to reach out to the BCREC technical committee or open an issue right here on GitHub.
+
+---
+*Built with ❤️ for the BCREC Community.*
