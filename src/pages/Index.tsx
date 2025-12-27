@@ -6,7 +6,7 @@ import { RecruiterMarquee } from '@/components/RecruiterMarquee';
 import { AdmissionSupport } from '@/components/AdmissionSupport';
 import { InquiryPreview } from '@/components/chat/InquiryPreview';
 import type { Message } from '@/types/chat';
-import { generateCollegeResponse, QUICK_QUESTIONS } from '@/data/collegeData';
+import { generateCollegeResponse, QUICK_QUESTIONS, type CollegeTopic } from '@/data/collegeData';
 import { getSessionId } from '@/lib/userId';
 import { ExternalLink, MessageSquare, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -20,6 +20,7 @@ export default function Index() {
     const [isTyping, setIsTyping] = useState(false);
     const [inquiryStep, setInquiryStep] = useState<InquiryStep>('idle');
     const [inquiryData, setInquiryData] = useState({ name: '', email: '', message: '' });
+    const [lastTopic, setLastTopic] = useState<CollegeTopic>('none');
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_sessionId, setSessionId] = useState<string>('');
 
@@ -103,8 +104,9 @@ export default function Index() {
         setIsTyping(true);
         const delay = 800 + Math.random() * 1200;
         setTimeout(() => {
-            const responseText = generateCollegeResponse(text);
-            addBotMessage(responseText);
+            const result = generateCollegeResponse(text, lastTopic);
+            setLastTopic(result.topic);
+            addBotMessage(result.text);
         }, delay);
     };
 

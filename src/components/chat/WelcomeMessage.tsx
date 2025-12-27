@@ -3,7 +3,7 @@ import { motion, type Variants } from 'framer-motion';
 
 export function WelcomeMessage() {
     const features = [
-        { icon: GraduationCap, text: "7 Departments" },
+        { icon: GraduationCap, text: "10 Departments" },
         { icon: BookOpen, text: "Since 2000" },
         { icon: Clock, text: "24/7 Support" },
         { icon: Shield, text: "MAKAUT Affiliated" },
