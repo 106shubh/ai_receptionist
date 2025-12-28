@@ -47,7 +47,7 @@ If you want to run this project locally, follow these simple steps:
 
 ## 📬 Contact the Team
 
-If you have any questions or feedback about this project, feel free to reach out to the BCREC technical committee or open an issue right here on GitHub.
+If you have any questions or feedback about this project, feel free to reach out to the TECH TITANS technical committee or open an issue right here on GitHub.
 
 ---
 *Built with ❤️ for the BCREC Community.*
