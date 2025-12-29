@@ -6,10 +6,11 @@ import { RecruiterMarquee } from '@/components/RecruiterMarquee';
 import { AdmissionSupport } from '@/components/AdmissionSupport';
 import { MailPreview } from '@/components/chat/MailPreview';
 import type { Message } from '@/types/chat';
-import { generateCollegeResponse, QUICK_QUESTIONS } from '@/data/collegeData';
+import { generateCollegeResponse, QUICK_QUESTIONS, type CollegeTopic } from '@/data/collegeData';
 import { getSessionId } from '@/lib/userId';
 import api from '@/data/externalRequest';
 import { ExternalLink, MessageSquare, ChevronRight } from 'lucide-react';
+import { getAIResponse } from '@/lib/gemini';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import { Footer } from '@/components/Footer';
@@ -27,8 +28,32 @@ export default function Index() {
 
 
     useEffect(() => {
-        setSessionId(getSessionId());
+        const sid = getSessionId();
+        setSessionId(sid);
+
+        // Load messages from localStorage
+        const savedMessages = localStorage.getItem(`chat_history_${sid}`);
+        if (savedMessages) {
+            try {
+                const parsed = JSON.parse(savedMessages);
+                // Convert string dates back to Date objects
+                const formatted = parsed.map((m: any) => ({
+                    ...m,
+                    timestamp: new Date(m.timestamp)
+                }));
+                setMessages(formatted);
+            } catch (e) {
+                console.error("Error parsing saved messages:", e);
+            }
+        }
     }, []);
+
+    // Save messages to localStorage whenever they change
+    useEffect(() => {
+        if (_sessionId && messages.length > 0) {
+            localStorage.setItem(`chat_history_${_sessionId}`, JSON.stringify(messages));
+        }
+    }, [messages, _sessionId]);
 
     const addBotMessage = (content: string) => {
         const assistantMsg: Message = {

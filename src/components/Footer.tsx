@@ -88,7 +88,7 @@ export function Footer() {
                         </p>
                     </div>
                     <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/40">
-                        Design & Developed by <span className="text-accent/60">AI Assistant</span>
+                        Design & Developed by <span className="text-accent/60">TECH TITANS</span>
                     </p>
                 </div>
             </div>
